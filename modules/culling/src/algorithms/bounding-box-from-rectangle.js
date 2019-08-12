@@ -5,14 +5,16 @@
 // There are no guarantees about the orientation of the bounding box.
 
 import { assert, _MathUtils } from 'math.gl';
+import { OrientedBoundingBox } from '@math.gl/culling';
+import { Ellipsoid } from '@math.gl/ellipsoid';
 
-// eslint-disable max-statements
+// eslint-disable-next-line max-statements
 export default function makeBoundingBoxFromCartographicRectangle(
   rectangle,
-  minimumHeight,
-  maximumHeight,
-  ellipsoid,
-  result
+  minimumHeight = 0.0,
+  maximumHeight = 0.0,
+  ellipsoid = Ellipsoid.WGS84,
+  result = new OrientedBoundingBox()
 ) {
   assert(rectangle);
   assert(rectangle.width >= 0.0 & rectangle.width <= 2 * Math.PI);
@@ -21,21 +23,15 @@ export default function makeBoundingBoxFromCartographicRectangle(
   // 'Rectangle height must be between 0 and pi'
   assert(ellipsoid && equalsEpsilon(ellipsoid.radii.x, ellipsoid.radii.y, _MathUtils.EPSILON15));
   // ''Ellipsoid must be an ellipsoid of revolution (radii.x == radii.y)'
-  }
-  //>>includeEnd('debug');
-
-  minimumHeight = defaultValue(minimumHeight, 0.0);
-  maximumHeight = defaultValue(maximumHeight, 0.0);
-  ellipsoid = defaultValue(ellipsoid, Ellipsoid.WGS84);
 
   // The bounding box will be aligned with the tangent plane at the center of the rectangle.
-  var tangentPointCartographic = Rectangle.center(rectangle, scratchRectangleCenterCartographic);
-  var tangentPoint = ellipsoid.cartographicToVector(
+  const tangentPointCartographic = Rectangle.center(rectangle, scratchRectangleCenterCartographic);
+  const tangentPoint = ellipsoid.cartographicToVector(
     tangentPointCartographic,
     scratchRectangleCenter
   );
-  var tangentPlane = new EllipsoidTangentPlane(tangentPoint, ellipsoid);
-  var plane = tangentPlane.plane;
+  const tangentPlane = new EllipsoidTangentPlane(tangentPoint, ellipsoid);
+  const plane = tangentPlane.plane;
 
   // Corner arrangement:
   //          N/+y
@@ -102,7 +98,7 @@ export default function makeBoundingBoxFromCartographicRectangle(
   );
   const maxZ = maximumHeight; // Since the tangent plane touches the surface at height = 0, this is okay
 
-  return fromTangentPlaneExtents(tangentPlane, minX, maxX, minY, maxY, minZ, maxZ, result);
+  return makeBoundingBoxFromTangentPlaneExtents(tangentPlane, minX, maxX, minY, maxY, minZ, maxZ, result);
 }
 
 /**
@@ -117,6 +113,8 @@ export default function makeBoundingBoxFromCartographicRectangle(
  * @param {Number} maximumZ Maximum Z extent in tangent plane space.
  * @param {OrientedBoundingBox} [result] The object onto which to store the result.
  * @returns {OrientedBoundingBox} The modified result parameter or a new OrientedBoundingBox instance if one was not provided.
+ */
+// eslint-disable-next-line max-params
 function makeBoundingBoxFromTangentPlaneExtents(
   tangentPlane,
   minimumX,
@@ -127,43 +125,35 @@ function makeBoundingBoxFromTangentPlaneExtents(
   maximumZ,
   result
 ) {
-  //>>includeStart('debug', pragmas.debug);
-  if (
-    !defined(minimumX) ||
-    !defined(maximumX) ||
-    !defined(minimumY) ||
-    !defined(maximumY) ||
-    !defined(minimumZ) ||
-    !defined(maximumZ)
-  ) {
-    throw new DeveloperError('all extents (minimum/maximum X/Y/Z) are required.');
-  }
-  //>>includeEnd('debug');
+  assert(
+    Number.isFinite(minimumX) ||
+    Number.isFinite(maximumX) ||
+    Number.isFinite(minimumY) ||
+    Number.isFinite(maximumY) ||
+    Number.isFinite(minimumZ) ||
+    Number.isFinite(maximumZ)
+  );
+  // 'all extents (minimum/maximum X/Y/Z) are required.');
 
-  if (!defined(result)) {
-    result = new OrientedBoundingBox();
-  }
-
-  var halfAxes = result.halfAxes;
+  const halfAxes = result.halfAxes;
   Matrix3.setColumn(halfAxes, 0, tangentPlane.xAxis, halfAxes);
   Matrix3.setColumn(halfAxes, 1, tangentPlane.yAxis, halfAxes);
   Matrix3.setColumn(halfAxes, 2, tangentPlane.zAxis, halfAxes);
 
-  var centerOffset = scratchOffset;
+  const centerOffset = scratchOffset;
   centerOffset.x = (minimumX + maximumX) / 2.0;
   centerOffset.y = (minimumY + maximumY) / 2.0;
   centerOffset.z = (minimumZ + maximumZ) / 2.0;
 
-  var scale = scratchScale;
+  const scale = scratchScale;
   scale.x = (maximumX - minimumX) / 2.0;
   scale.y = (maximumY - minimumY) / 2.0;
   scale.z = (maximumZ - minimumZ) / 2.0;
 
-  var center = result.center;
+  const center = result.center;
   centerOffset = Matrix3.multiplyByVector(halfAxes, centerOffset, centerOffset);
   Vector3.add(tangentPlane.origin, centerOffset, center);
   Matrix3.multiplyByScale(halfAxes, scale, halfAxes);
 
   return result;
 }
- */
