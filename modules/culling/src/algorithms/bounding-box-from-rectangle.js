@@ -4,9 +4,11 @@
 // Computes an OrientedBoundingBox that bounds a {@link Rectangle} on the surface of an {@link Ellipsoid}.
 // There are no guarantees about the orientation of the bounding box.
 
-import { assert, _MathUtils } from 'math.gl';
+import { Vector3, assert, _MathUtils, equalsEpsilon } from 'math.gl';
 import { OrientedBoundingBox } from '@math.gl/culling';
 import { Ellipsoid } from '@math.gl/ellipsoid';
+
+const scratchRectangleCenter = new Vector3();
 
 // eslint-disable-next-line max-statements
 export default function makeBoundingBoxFromCartographicRectangle(
@@ -26,7 +28,7 @@ export default function makeBoundingBoxFromCartographicRectangle(
 
   // The bounding box will be aligned with the tangent plane at the center of the rectangle.
   const tangentPointCartographic = Rectangle.center(rectangle, scratchRectangleCenterCartographic);
-  const tangentPoint = ellipsoid.cartographicToVector(
+  const tangentPoint = ellipsoid.cartographicToCartesian(
     tangentPointCartographic,
     scratchRectangleCenter
   );
@@ -63,8 +65,11 @@ export default function makeBoundingBoxFromCartographicRectangle(
   // Compute XY extents using the rectangle at maximum height
   perimeterNE.height = perimeterNC.height = perimeterNW.height = perimeterCW.height = perimeterSW.height = perimeterSC.height = perimeterSE.height = perimeterCE.height = maximumHeight;
 
+  const perimeterVector =
+    perimeterCartographicScratch.map(cartographic => ellipsoid.cartographicToCartesian(cartographic));
   ellipsoid.cartographicArrayToVectorArray(perimeterCartographicScratch, perimeterVectorScratch);
   tangentPlane.projectPointsToNearestOnPlane(perimeterVectorScratch, perimeterProjectedScratch);
+
   // See the `perimeterXX` definitions above for what these are
   const minX = Math.min(
     perimeterProjectedScratch[6].x,
