@@ -26,7 +26,7 @@ it('fromPoints sets expected values', () => {
   expect(tangentPlane.origin).toEqual(VECTOR3_UNIT_X);
 });
 
-it('projectPointOntoPlane returns undefined for unsolvable projections', function () {
+it('projectPointOntoPlane returns undefined for unsolvable projections', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -35,7 +35,7 @@ it('projectPointOntoPlane returns undefined for unsolvable projections', functio
   expect(returnedResult).toBeUndefined();
 });
 
-it('projectPointOntoPlane works without a result parameter', function () {
+it('projectPointOntoPlane works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -46,7 +46,7 @@ it('projectPointOntoPlane works without a result parameter', function () {
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointOntoPlane works with a result parameter', function () {
+it('projectPointOntoPlane works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -59,7 +59,7 @@ it('projectPointOntoPlane works with a result parameter', function () {
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointsOntoPlane works without a result parameter', function () {
+it('projectPointsOntoPlane works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -70,7 +70,7 @@ it('projectPointsOntoPlane works without a result parameter', function () {
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointsOntoPlane works with a result parameter', function () {
+it('projectPointsOntoPlane works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -86,7 +86,7 @@ it('projectPointsOntoPlane works with a result parameter', function () {
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointsOntoPlane works when some points cannot be projected', function () {
+it('projectPointsOntoPlane works when some points cannot be projected', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -97,7 +97,7 @@ it('projectPointsOntoPlane works when some points cannot be projected', function
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointOntoEllipsoid works without a result parameter', function () {
+it('projectPointOntoEllipsoid works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -108,7 +108,7 @@ it('projectPointOntoEllipsoid works without a result parameter', function () {
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointOntoEllipsoid works with a result parameter', function () {
+it('projectPointOntoEllipsoid works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -121,7 +121,7 @@ it('projectPointOntoEllipsoid works with a result parameter', function () {
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointsOntoEllipsoid works without a result parameter', function () {
+it('projectPointsOntoEllipsoid works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -132,7 +132,7 @@ it('projectPointsOntoEllipsoid works without a result parameter', function () {
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointsOntoEllipsoid works with a result parameter', function () {
+it('projectPointsOntoEllipsoid works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -147,7 +147,7 @@ it('projectPointsOntoEllipsoid works with a result parameter', function () {
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointToNearestOnPlane works without a result parameter', function () {
+it('projectPointToNearestOnPlane works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -158,7 +158,7 @@ it('projectPointToNearestOnPlane works without a result parameter', function () 
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointToNearestOnPlane works projecting from constious distances', function () {
+it('projectPointToNearestOnPlane works projecting from constious distances', () => {
   const ellipsoid = Ellipsoid.ZERO;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -169,7 +169,7 @@ it('projectPointToNearestOnPlane works projecting from constious distances', fun
   expect(tangentPlane.projectPointToNearestOnPlane(new Vector3(-1.0, 0.0, 0.0))).toEqual(new Vector2(0.0, 0.0));
 });
 
-it('projectPointToNearestOnPlane works with a result parameter', function () {
+it('projectPointToNearestOnPlane works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -182,7 +182,7 @@ it('projectPointToNearestOnPlane works with a result parameter', function () {
   expect(returnedResult).toEqual(expectedResult);
 });
 
-it('projectPointsToNearestOnPlane works without a result parameter', function () {
+it('projectPointsToNearestOnPlane works without a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -193,7 +193,7 @@ it('projectPointsToNearestOnPlane works without a result parameter', function ()
   expect(returnedResults).toEqual(expectedResults);
 });
 
-it('projectPointsToNearestOnPlane works with a result parameter', function () {
+it('projectPointsToNearestOnPlane works with a result parameter', () => {
   const ellipsoid = ELLIPSOID_UNIT_SPHERE;
   const origin = new Vector3(1.0, 0.0, 0.0);
   const tangentPlane = new EllipsoidTangentPlane(origin, ellipsoid);
@@ -210,59 +210,43 @@ it('projectPointsToNearestOnPlane works with a result parameter', function () {
 });
 
 it('constructor throws without origin', () => {
-  expect(() => {
-      return new EllipsoidTangentPlane(undefined, Ellipsoid.WGS84);
-  }).toThrowDeveloperError();
+  expect(() => new EllipsoidTangentPlane(undefined, Ellipsoid.WGS84)).toThrowDeveloperError();
 });
 
 it('constructor throws if origin is at the center of the ellipsoid', () => {
-  expect(() => {
-      return new EllipsoidTangentPlane(Vector3.ZERO, Ellipsoid.WGS84);
-  }).toThrowDeveloperError();
+  expect(() => new EllipsoidTangentPlane(Vector3.ZERO, Ellipsoid.WGS84)).toThrowDeveloperError();
 });
 
 it('fromPoints throws without cartesians', () => {
-  expect(() => {
-      return EllipsoidTangentPlane.fromPoints(undefined, Ellipsoid.WGS84);
-  }).toThrowDeveloperError();
+  expect(() => EllipsoidTangentPlane.fromPoints(undefined, Ellipsoid.WGS84)).toThrowDeveloperError();
 });
 
 it('projectPointOntoPlane throws without cartesian', () => {
   const tangentPlane = new EllipsoidTangentPlane(VECTOR3_UNIT_X, ELLIPSOID_UNIT_SPHERE);
-  expect(() => {
-      return tangentPlane.projectPointOntoPlane(undefined);
-  }).toThrowDeveloperError();
+  expect(() => tangentPlane.projectPointOntoPlane(undefined)).toThrowDeveloperError();
 });
 
 it('projectPointsOntoPlane throws without cartesians', () => {
   const tangentPlane = new EllipsoidTangentPlane(VECTOR3_UNIT_X, ELLIPSOID_UNIT_SPHERE);
-  expect(() => {
-      return tangentPlane.projectPointsOntoPlane(undefined);
-  }).toThrowDeveloperError();
+  expect(() => tangentPlane.projectPointsOntoPlane(undefined)).toThrowDeveloperError();
 });
 
 it('projectPointToNearestOnPlane throws without cartesian', () => {
   const tangentPlane = new EllipsoidTangentPlane(VECTOR3_UNIT_X, ELLIPSOID_UNIT_SPHERE);
-  expect(() => {
-      return tangentPlane.projectPointToNearestOnPlane(undefined);
-  }).toThrowDeveloperError();
+  expect(() => tangentPlane.projectPointToNearestOnPlane(undefined)).toThrowDeveloperError();
 });
 
 it('projectPointsToNearestOnPlane throws without cartesians', () => {
   const tangentPlane = new EllipsoidTangentPlane(VECTOR3_UNIT_X, ELLIPSOID_UNIT_SPHERE);
-  expect(() => {
-      return tangentPlane.projectPointsToNearestOnPlane(undefined);
-  }).toThrowDeveloperError();
+  expect(() => tangentPlane.projectPointsToNearestOnPlane(undefined)).toThrowDeveloperError();
 });
 
 it('projectPointsOntoEllipsoid throws without cartesians', () => {
   const tangentPlane = new EllipsoidTangentPlane(VECTOR3_UNIT_X, ELLIPSOID_UNIT_SPHERE);
-  expect(() => {
-      return tangentPlane.projectPointsOntoEllipsoid(undefined);
-  }).toThrowDeveloperError();
+  expect(() => tangentPlane.projectPointsOntoEllipsoid(undefined)).toThrowDeveloperError();
 });
 
-it('projectPointsOntoEllipsoid works with an arbitrary ellipsoid using fromPoints', function () {
+it('projectPointsOntoEllipsoid works with an arbitrary ellipsoid using fromPoints', () => {
   const points = Vector3.fromDegreesArray([
       -72.0, 40.0,
       -68.0, 35.0,
